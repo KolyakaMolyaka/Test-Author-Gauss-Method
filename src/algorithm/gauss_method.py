@@ -4,7 +4,7 @@
 					  с любым количеством переменных и уравнений."
 """
 
-from .extra_checks import *
+from src.algorithm.decorators.extra_checks import *
 
 
 @validate_matrix_and_answers

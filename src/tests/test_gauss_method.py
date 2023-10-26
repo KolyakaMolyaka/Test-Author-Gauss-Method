@@ -1,6 +1,6 @@
 import unittest
 import math
-from src.algorithm.extra_checks_exceptions import *
+from src.algorithm.decorators.extra_checks_exceptions import *
 from src.algorithm.gauss_method import gauss_method
 from copy import deepcopy
 

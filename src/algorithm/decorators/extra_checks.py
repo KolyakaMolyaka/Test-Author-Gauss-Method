@@ -1,7 +1,7 @@
 from functools import wraps
 import numpy as np
 
-from .extra_checks_exceptions import *
+from src.algorithm.decorators.extra_checks_exceptions import *
 
 
 def is_singular_matrix(matrix: list[list[float]]) -> bool:
