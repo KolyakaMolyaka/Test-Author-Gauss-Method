@@ -10,11 +10,13 @@
 ```
 src
 ├───algorithm
-│   └───decorators
-└───tests
+│  ├───decorators
+│  └───utils
+└──tests
 ```
 - *algortihm* - код авторского алгоритма.
 - *decorators* - исправления авторского алгоритма.
+- *utils* - утилиты для тестирования
 - *tests* - тесты авторского алгоритма.
 
 
