@@ -44,3 +44,8 @@ def gauss_method(matrix: list[list[float]], vector: list[float]) -> list[float]:
 		for k in range(i - 1, -1, -1):
 			vector[k] -= matrix[k][i] * x[i]
 	return x
+
+# A = [[1, 2], [1, 2]]
+# b = [3, 3]
+# res = gauss_method(A, b)
+# print(res)

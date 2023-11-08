@@ -1,8 +1,10 @@
 import unittest
 import math
+from copy import deepcopy
+
 from src.algorithm.decorators.extra_checks_exceptions import *
 from src.algorithm.gauss_method import gauss_method
-from copy import deepcopy
+from src.algorithm.utils.MatrixGenerator import NotSingularGeneratedMatrix
 
 
 class TestGaussMethod(unittest.TestCase):
@@ -62,7 +64,7 @@ class TestGaussMethod(unittest.TestCase):
 		A_copy = deepcopy(A)
 
 		with self.assertRaises(SingularMatrixException):
-			vector = [i for i in range(len(A))]  # заполнитель, может быть любым
+			vector = [1 for i in range(len(A))]  # заполнитель, может быть любым
 			gauss_method(A_copy, vector)
 
 	def test_not_square_matrix_raise_exception(self):
@@ -115,3 +117,68 @@ class TestGaussMethod(unittest.TestCase):
 			A, b = test
 			with self.assertRaises(NotEqualMatrixCoefficientsAndAnswerDimensionsException):
 				gauss_method(A, b)
+
+	def test_big_dimension_matrix_solution(self):
+		"""
+		Метод Гаусса долго работает большими матрицами, потому что его сложность O(n^3),
+		однако, он должен найти ответ.
+		Failed: Функция не может решить СЛУ.
+		Passed: Функция может решить СЛУ.
+		Expected: Решение СЛУ.
+		"""
+
+		n = 50
+		A = NotSingularGeneratedMatrix(n)
+		A_mat = deepcopy(A.matrix)
+		x = [i for i in range(n)]
+
+		b = []
+		for row in A_mat:
+			pairs = zip(row, x)
+			row_sum = sum([coef * x for coef, x in pairs])
+			b.append(row_sum)
+
+		xs = gauss_method(A_mat, b.copy())
+		self.check_solution(A.matrix, b, xs)
+
+	def test_small_values_matrix_solution(self):
+		"""
+		Метод Гаусса работает маленькими значениями и способен найти ответ.
+		Failed: Функция не может решить СЛУ.
+		Passed: Функция может решить СЛУ.
+		Expected: Решение СЛУ.
+		"""
+		n = 5
+		A = NotSingularGeneratedMatrix(n, rand_from=1e-7, rand_to=1e-6)
+		A_mat = deepcopy(A.matrix)
+		x = [i for i in range(n)]
+
+		b = []
+		for row in A_mat:
+			pairs = zip(row, x)
+			row_sum = sum([coef * x for coef, x in pairs])
+			b.append(row_sum)
+
+		xs = gauss_method(A_mat, b.copy())
+		self.check_solution(A.matrix, b, xs, abs_tol=1e-9)
+
+	def test_big_values_matrix_solution(self):
+		"""
+		Метод Гаусса работает с большими значениями и способен найти ответ.
+		Failed: Функция не может решить СЛУ.
+		Passed: Функция может решить СЛУ.
+		Expected: Решение СЛУ.
+		"""
+		n = 5
+		A = NotSingularGeneratedMatrix(n, rand_from=1e6, rand_to=1e7)
+		A_mat = deepcopy(A.matrix)
+		x = [i for i in range(n)]
+
+		b = []
+		for row in A_mat:
+			pairs = zip(row, x)
+			row_sum = sum([coef * x for coef, x in pairs])
+			b.append(row_sum)
+
+		xs = gauss_method(A_mat, b.copy())
+		self.check_solution(A.matrix, b, xs)
